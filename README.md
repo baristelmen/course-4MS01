@@ -2,15 +2,36 @@
 <br />
 <div align="center">
 
-  <h3 align="center">4MS01 - Course #5</h3>
+  <h3 align="center">Comportement non linéaire des matériaux - Course #5</h3>
 
   <p align="center">
     Modeling behavior of materials using MFront and Python bindings in Jupyter Lab. <br />
     <br />
-    <a href="https://github.com/baristelmen/MS201/issues">Report Bug</a>
+    <a href="https://github.com/baristelmen/4MS01/issues">Report Bug</a>
     ·
-    <a href="https://github.com/baristelmen/MS201/pulls">Request Feature</a>
+    <a href="https://github.com/baristelmen/4MS01/pulls">Request Feature</a>
   </p>
+</div>
+
+<div align="center">
+<table>
+  <tr>
+    <th align="left">Level</th>
+    <td>Diplôme d'Ingénieur, 2nd year (2A)</td>
+  </tr>
+  <tr>
+    <th align="left">Institution</th>
+    <td>ENSTA Paris – Institut Polytechnique de Paris</td>
+  </tr>
+  <tr>
+    <th align="left">Lecturer</th>
+    <td>Sabine Ortiz-Clerc, Fabien Szmytka</td>
+  </tr>
+  <tr>
+    <th align="left">Repository maintainer</th>
+    <td><a href="https://github.com/baristelmen">Baris Telmen</a></td>
+  </tr>
+</table>
 </div>
 
 ## Table of Contents
