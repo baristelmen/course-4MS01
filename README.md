@@ -1,17 +1,12 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/baristelmen/MS201">
-    <img src="images/logo.png" alt="Logo" width="80" height="80" />
-  </a>
 
-  <h3 align="center">MS201 - Travaux pratiques (TP) #5</h3>
+  <h3 align="center">4MS01 - Course #5</h3>
 
   <p align="center">
-    Modeling behavior of materials using python
+    Modeling behavior of materials using MFront and Python bindings in Jupyter Lab. <br />
     <br />
-    <a href="https://github.com/baristelmen/MS201/archive/refs/heads/main.zip">Download</a>
-    ·
     <a href="https://github.com/baristelmen/MS201/issues">Report Bug</a>
     ·
     <a href="https://github.com/baristelmen/MS201/pulls">Request Feature</a>
