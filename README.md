@@ -15,185 +15,143 @@
 
 ## Table of Contents
 
-* [About this repository](#about-this-repository)
-  * [Overview](#overview)
-  * [Features](#features)
-* [Getting started](#getting-started)
-  * [Setting up the environment](#setting-up-the-environment)
-  * [Using this repo](#using-this-repo)
-* [Getting Help](#getting-help)
-  * [Issues tab](#1-issues-tab)
-  * [Software related issues](#software-related-issues)
-  * [Contact maintainer](#contact-maintainer)
-* [Why containers?](#why-containers)
-* [Contributing](#contributing)
-* [License](#license)
-
+- [About this repository](#about-this-repository)
+- [Getting started](#getting-started)
+  - [Requirements](#requirements)
+  - [About the data in this repository](#about-the-data-in-this-repository)
+  - [Get the repository](#get-the-repository)
+  - [Option A: Docker Compose (recommended)](#option-a-docker-compose-recommended)
+  - [Option B: Standalone container](#option-b-standalone-container)
+- [Getting help](#getting-help)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## About this repository
 
-### Overview
+This repository contains the course material and a ready-to-use environment for the **MEC_4MS01_TA** course. It provides:
 
-This repository provides a Docker Compose setup for running a JupyterLab environment with pre-installed TFEL/MFront. This setup allows you to perform material behavior simulations using the Python bindings of TFEL/MFront in JupyterLab. Essentialy, the compose file will be fetching image specially created for **MEC_4MS01_TA** course which is named,  ``` jupyter-mfront-ms201 ```. 
+- **`course_content/`** – notebooks and material used during the course.
+- **`docker/`** – a Docker Compose setup that pulls the `jupyter-mfront-ms201` image, a JupyterLab environment with TFEL/MFront and its Python bindings pre-installed.
 
-### Features
+No local installation of MFront or Python packages is needed: everything runs inside the container, and your work is saved to a shared folder on your computer.
 
-- **Jupyter Lab**: Jupyter Lab is a powerful web-based interactive development environment for Python and other programming languages. It comes pre-configured with essential libraries and tools for data analysis, machine learning, and more.
+## Getting started
 
-- **MFront**: MFront is an open-source modeling and simulation tool commonly used in mechanical engineering and materials science. This project includes a configured MFront environment for your modeling needs.
+### Requirements
 
-- **Docker Compose**: Docker Compose simplifies the management of multi-container applications. With just a few commands, you can spin up your Jupyter Lab and MFront containers and start working on your projects.
+- [Docker](https://docs.docker.com/get-docker/) (Docker Desktop on Windows/macOS, Docker Engine on Linux) with the Compose plugin, which ships with standard installations.
+- Hardware virtualization enabled in BIOS/UEFI (Windows/macOS).
+- At least 4 GB of RAM and a network connection for the first download.
 
+The image is published for both `amd64` and `arm64`, so Docker pulls the right version for your CPU (including Apple Silicon).
 
-## Getting Started
+### About the data in this repository
 
-### Setting up the environment
+> [!IMPORTANT]
+> **The data in this repository is sample data only.** It shows the expected folder structure and file formats, but it is **not** the data you will work with during the course.
+>
+> Before you start, replace it with your own course data:
+>
+> 1. **Download your data** from the JupyterHub server provided during the course.
+> 2. **Replace the sample data** in the `data` folder with the files you downloaded, using either method:
+>    - **On your computer:** copy the files into the `data` folder with your file explorer (Finder, Windows Explorer, etc.).
+>    - **In JupyterLab:** once the environment is running (see below), open the `work` folder and drag the files into the file browser, or use the **Upload** button.
+>
+> Both methods write to the same folder, so the files appear on your computer and in JupyterLab.
 
-This repo uses Docker to run its services contrary to classical VMs. Ensure your system meets the specified requirements before proceeding.
+### Get the repository
 
-#### System Requirements
-
-**Linux:**
-- A compatible CPU with hardware virtualization support (for running Docker containers).
-- At least 2GB of RAM.
-- A network connection
-
-**Windows:**
-- Windows 10 64-bit: Home, Pro, or Enterprise edition.
-- Virtualization must be enabled in BIOS/UEFI settings.
-- Hyper-V must be disabled if enabled.
-- Docker Desktop for Windows requires Microsoft Hyper-V.
-- A network connection.
-
-**macOS:**
-- A 2010 or newer Mac with macOS 10.13 or later.
-- macOS Sierra or later.
-- At least 4GB of RAM.
-- A network connection.
-
-Docker supports multiple Linux distros at its current stage and provides .deb and .rpm packages. To proceed with installation process, follow the link below for official instructions.
-
-https://docs.docker.com/engine/install/
-
-This repo uses docker-compose plugin. Normally, it should be installed via standard docker installation. If not, refer to Docker documentation for proper installation instructions.
-
-## Using this repo
-
-To use this repo, one can either download or clone. We do not provide versions or tags on this repo.
-
-To clone this repository,
-
-```console
-git clone https://github.com/baristelmen/MS201.git
+```shell
+git clone https://github.com/baristelmen/4MS01.git
+cd 4MS01/docker
 ```
 
-To download this repository
-```console
-https://github.com/baristelmen/MS201/archive/refs/heads/main.zip
+Or [download the ZIP](https://github.com/baristelmen/4MS01/archive/refs/heads/main.zip), unzip it, and open a terminal in the `docker` folder.
+
+Both options use the image `baristelmen/jupyter-mfront:lab-4.6.3`, which is built on the official Jupyter Docker Stacks `minimal-notebook`. The login password is set with the `JUPYTER_TOKEN` environment variable. The default password is **`MS201`**.
+
+> **Linux users:** create the shared folder yourself (`mkdir data`) before the first start. If Docker creates it, it belongs to `root`, and JupyterLab cannot save files there.
+
+### Option A: Docker Compose (recommended)
+
+**Set the password.** Edit `docker-compose.yaml` in the `docker` folder and change the value of `JUPYTER_TOKEN`:
+
+```yaml
+    environment:
+      - JUPYTER_TOKEN=MS201      # change to your own password
 ```
-Once you have the source code, follow the steps below (Identical for each OS):
 
-1. Unzip the folder on your computer 
-2. Open you favorite terminal on your preferred OS and navigate to the unzipped folder
-3. An environment file (.env) is provided in this repository. This file can be either modified or leave as it is.
-4. At the source code folder, execute the following command
-   ```shell
-   docker compose up -d
-5. This command will download the appropriate image, based on your CPU architechture, on your local machine. The download could take some time. So make sure that you have enough coffee.
-6. The jupyter lab is already installed on your computer and mildly configured. To access to your jupyter lab interface, open your favorite browser and type the address as below (or the ip address)
-   ```shell
-   http://localhost:8888/lab
-7. The default password configured in **.env** file is **MS201**. 
-8. The data stored in the docker images can be accessed from your computer via data folder given in this repository. Interactive sharing folder definition is pre-configured in **docker-compose.yaml** file. You can always access to your data from this folder including your simulations results or your custom python codes. 
+To use a different port on your computer, change the left side of `"8888:8888"` (for example `"9999:8888"`).
 
-## Getting Help
+**Start the environment:**
 
-If you encounter any issues or have questions while using this environment, here are a few ways you can seek assistance:
+```shell
+docker compose up -d
+```
 
-#### **Issues Tab**
+The first run downloads the image, which can take a while. Then:
 
-For bugs, feature requests, or general questions, please open an issue in the [Issues tab](#). Be sure to provide as much detail as possible, including:
-- Steps to reproduce the issue.
-- Any error messages or logs.
-- Your environment details (e.g., Docker version, system configuration).
+1. Open **http://localhost:8888/lab** in your browser.
+2. Enter the password set in `docker-compose.yaml`.
+3. Save your work in the `work` folder in JupyterLab. It maps to the `data` folder on your computer, so notebooks and results persist after the container stops.
 
-#### **Software related issues**
+To change the password later, edit `docker-compose.yaml` and run `docker compose up -d` again. Compose recreates the container with the new value, and your files in `data` are kept.
 
-For help with TFEL/MFront, you can consult the official documentation:
-- [TFEL Documentation](https://thelfer.github.io/tfel/web/index.html)
-- [MFront User Guide](https://thelfer.github.io/tfel/web/mfront-userguide.html)
+To stop the environment:
 
-For Docker-related issues, you can refer to:
-- [Docker Documentation](https://docs.docker.com)
-- [Docker Compose Documentation](https://docs.docker.com/compose)
- 
-#### **Contact Maintainer**
+```shell
+docker compose down
+```
 
-If your issue is specific to this repository, feel free to contact the maintainer directly by creating an issue or posting a comment. 
+### Option B: Standalone container
 
-## Why containers?
+**Set the password** with `-e JUPYTER_TOKEN=...` when starting the container:
 
-Containers have become a popular solution for developing, deploying, and managing applications because they offer numerous advantages over traditional approaches, such as virtual machines or bare-metal setups. Here’s why using containers is a great choice for this project and in general:
+```shell
+docker run -d --name ms201 \
+  -p 8888:8888 \
+  -e JUPYTER_TOKEN=MS201 \
+  -v "$(pwd)/data:/home/jovyan/work" \
+  baristelmen/jupyter-mfront:lab-4.6.3
+```
 
-#### **Consistency Across Environments**
-One of the key benefits of containers is that they ensure consistency across different environments. Whether you're running your application locally, in a staging environment, or in production, containers ensure that:
-- The application behaves the same way regardless of the underlying operating system or infrastructure.
-- Dependencies, libraries, and system settings are included within the container, minimizing "it works on my machine" issues.
+On Windows PowerShell, replace `$(pwd)` with `${PWD}` and the `\` line breaks with a backtick (`` ` ``). Then open **http://localhost:8888/lab** and enter the password you chose.
 
-In this project, containers ensure that the TFEL/MFront installation and JupyterLab environment behave identically on any machine where Docker is available.
+To change the password, remove the container and start it again with a new value. Your files in `data` are kept:
 
-#### **Simplified Setup and Deployment**
-Containers make it easy to package an entire application, including its dependencies, into a single portable unit. This simplifies the setup process by allowing users to:
-- Avoid the hassle of installing and configuring TFEL/MFront or other dependencies manually.
-- Launch the entire environment with a single `docker-compose up` command.
+```shell
+docker stop ms201 && docker rm ms201
+```
 
-This project leverages Docker Compose to automatically set up the environment, meaning users don't have to worry about complex installation instructions.
+> [!CAUTION]
+> **Forgot to set `JUPYTER_TOKEN`?** Jupyter generates a random token, and you cannot log in with `MS201`.
+> Find the generated token in the startup logs:
+> ```shell
+> docker logs ms201
+> ```
 
-#### **Isolation and Security**
-Containers provide a high level of isolation between applications running on the same system. Each container has its own filesystem, network interfaces, and resource limits, reducing the risk of conflicts between applications. Benefits include:
-- **Resource Isolation**: You can limit the CPU and memory usage of containers, ensuring that this environment does not interfere with other services running on the same machine.
-- **Security**: Containers are isolated from the host system, and potential vulnerabilities within the application are less likely to affect the broader system.
+## Getting help
 
-In this project, the JupyterLab environment with TFEL/MFront is completely isolated from the host, ensuring that any changes or experiments conducted inside the container do not affect your local setup.
-
-#### **Portability**
-Containers make your application highly portable. Since Docker containers can run anywhere Docker is installed, you can:
-- Move the application seamlessly between local development environments, cloud services, or even between different operating systems.
-- Share the exact same environment with collaborators without worrying about platform differences or missing dependencies.
-
-For this project, this means you can share your simulation environment, ensuring others can run the same TFEL/MFront simulations without additional setup.
-
-#### **Efficient Resource Usage**
-Unlike traditional virtual machines, containers are lightweight. They share the host system's kernel, which significantly reduces overhead compared to running a full-fledged VM. As a result:
-- Containers start much faster than virtual machines.
-- They use less disk space and memory, making them more efficient in handling large-scale applications or microservices.
-
-This project benefits from the lightweight nature of containers, allowing users to run simulations without heavy resource overhead.
-
-#### **Version Control and Reproducibility**
-With containers, you can specify exactly which versions of software dependencies to use in the `Dockerfile` or `docker-compose.yml`. This leads to:
-- **Reproducibility**: Anyone using the same container image will get the same results, which is particularly important for scientific computing and simulation environments.
-- **Version Control**: You can version your container images, ensuring that older simulations can be rerun in the same environment, even if the software stack has since been updated.
-
-In this project, the ability to specify exact TFEL/MFront versions ensures that your simulations are reproducible across time and different machines.
-
-#### **Scalability**
-Containers are designed to be stateless and lightweight, making them ideal for scaling applications across multiple servers. Using orchestration tools like Kubernetes or Docker Swarm, you can:
-- Easily scale up or down based on demand.
-- Deploy containerized applications in a cluster, handling high workloads with efficiency.
-
-Although this project may not require large-scale deployment, the containerized setup ensures it can scale if needed, such as running multiple simulations in parallel.
-
-#### **Collaboration and Sharing**
-Containers are highly portable and easy to distribute. You can:
-- Share your work with others by distributing the Docker image, enabling your colleagues or community to run the exact same environment on their machines.
-- Use container registries like Docker Hub to publish pre-built images, allowing anyone to pull and run the container without building it themselves.
-
-For this project, this means you can share your containerized TFEL/MFront setup, helping others to easily replicate your work.
-
+- **Problems with this repository or the environment:** open an issue on the [Issues page](https://github.com/baristelmen/4MS01/issues). Include the steps to reproduce, the error message, and your OS and Docker version (`docker --version`).
+- **TFEL/MFront:** see the [TFEL documentation](https://thelfer.github.io/tfel/web/index.html) and the [MFront user guide](https://thelfer.github.io/tfel/web/mfront-userguide.html).
+- **Docker:** see the [Docker](https://docs.docker.com) and [Docker Compose](https://docs.docker.com/compose) documentation.
 
 ## Contributing
-Contributions to this repository are welcome! If you encounter issues or have improvements to suggest, please feel free to open an issue or submit a pull request.
+
+Contributions are welcome! If you find an issue or have an improvement to suggest, feel free to open an issue or submit a pull request.
 
 ## License
-This repository is open-source and distributed under the MIT License. You are free to use, modify, and distribute it according to the terms of the license.
+
+The content of this repository (course material, configuration files, and documentation) is open source under the [MIT License](LICENSE). Anyone is free to use, modify, and share it.
+
+The container image bundles third-party software that remains under its own license:
+
+| Software | License |
+| --- | --- |
+| [TFEL/MFront](https://thelfer.github.io/tfel/web/index.html) | GPL-3.0 or CeCILL-A (dual license) |
+| [JupyterLab](https://github.com/jupyterlab/jupyterlab) | BSD-3-Clause |
+| [Jupyter Docker Stacks](https://github.com/jupyter/docker-stacks) (base image) | BSD-3-Clause |
+| [Python](https://www.python.org/) | PSF License |
+| [Docker](https://www.docker.com/) | Apache-2.0 (Docker Engine); Docker Desktop has its own [subscription terms](https://www.docker.com/legal/docker-subscription-service-agreement/) |
+
+Using this environment means accepting the licenses of these components.

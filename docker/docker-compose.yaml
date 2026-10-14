@@ -1,0 +1,15 @@
+name: 4MS01-courses
+
+services:
+  jupyter:
+    image: baristelmen/jupyter-mfront:lab-4.6.3
+    container_name: ms201
+    ports:
+      - "8888:8888"
+    environment:
+      # Password used to log in to JupyterLab
+      - JUPYTER_TOKEN=MS201
+    volumes:
+      # Shared folder between your computer and the container
+      - ./data:/home/jovyan/work
+    restart: unless-stopped
